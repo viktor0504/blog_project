@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container">   
+    <h1>Posts for Year {{ year }}</h1>
+
+    {% if posts %}
+      <ul>
+        {% for post in posts %}
+          <a href="{% url 'blog:blog_detail' post.slug %}" style="color: #000; text-decoration: none;" >   
+            <li>{{ post.title }} </li> 
+          </a>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No posts found for the selected year.</p>
+    {% endif %}
+</main> 
+{% endblock %}

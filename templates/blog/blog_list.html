@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container">
+<div class="row g-5">
+    <div class="col-md-8">
+      <hr>
+      <article class="blog-post">
+        {% for blog in posts %}
+          <h2 class="blog-post-title">
+              <a href="{% url 'blog:blog_detail' blog.slug %}" style="color: black; text-decoration: none;" >{{blog.title}}</a> </h2>
+          <p class="blog-post-meta">{{blog.created_at}}<a href="#" style="color: black; text-decoration: none;"> Author: {{blog.author}} | {{blog.tag}}</a></p>
+          <p>{{blog.sub_title}}</p>
+          <hr>
+          <p>{{blog.content|slice:':600'}}</p>
+          <br> 
+          <br>
+        {% endfor %}
+      </article> 
+      <nav class="blog-pagination" aria-label="Pagination">
+        
+          <a class="btn btn-outline-primary" href="">Older</a>
+       
+          <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+      </nav>
+    </div>
+</div>
+</main>
+{% endblock %}

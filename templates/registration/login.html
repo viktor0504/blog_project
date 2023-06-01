@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .centered-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin-top: -70px;
+  }
+  
+  .login-form {
+      width: 300px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-form .form-group {
+      margin-bottom: 15px;
+  }
+  
+  .login-form label {
+      font-weight: bold;
+  }
+  
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+  }
+  
+  .login-form button[type="submit"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+  }
+</style>
+
+<div class="centered-form">
+  <div class="login-form">
+      <h1>Login</h1>
+      <form method="post">
+        {% csrf_token %}
+          <div class="form-group">
+              <label for="{{ form.username.id_for_label }}">Username</label>
+              {{ form.username }}
+          </div>
+      
+          <div class="form-group">
+              <label for="{{ form.password.id_for_label }}">Password</label>
+              {{ form.password }}
+          </div>
+      
+          <button type="submit">Sign In</button>
+      </form>
+  </div>
+</div>
+
+  
+{% endblock %}

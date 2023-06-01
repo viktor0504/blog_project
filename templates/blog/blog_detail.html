@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .text-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      height: 40vh;
+      margin-top: -70px;
+  }
+
+  .comment-container {
+  display: flex;
+  align-items: center;
+}
+
+.comment-links {
+  margin-left: left;
+}
+
+.comment-links a {
+  margin-left: 10px;
+}
+
+</style>
+
+<main class="container">
+    <div class="row g-5">
+        <div class="col-md-8">    
+          <article class="blog-post">
+            <h2 class="blog-post-title">{{post_detail.title}}</h2>
+            <br>
+            <h4>{{post_detail.sub_title}}</h4>
+            <p class="blog-post-meta"> Posten on: {{post_detail.created_at}} Writen by: <a href="#" style="color: black; text-decoration: none;">{{post_detail.author}}</a> | <a href="", style="color: black; text-decoration: none;">{{post_detail.tag}}</a></p>
+            <hr>
+    
+            <p>{{post_detail.content}}</p>
+            
+            {% if post_detail.image.url %}
+              <img src="{{post_detail.image.url}}" width="100%" height="100%"alt="">
+            {% endif %}
+            {% for comment in post_detail.comments.all %}
+            <div class="comment-container">
+              <p>{{ comment.author }}: {{ comment.text }}</p>
+              
+              {% if user.is_authenticated and user == comment.author %}
+                <div class="comment-links">
+                  <a href="{% url 'blog:comment_edit' comment.pk %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                  </a>
+            
+                  <a href="{% url 'blog:comment_delete' comment.pk %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                    </svg>
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+
+            <!-- Comment Form -->
+            <h2>Agrega un comentario</h2>
+            <form method="post" class="text-left">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="{{ form.text.id_for_label }}"></label>
+                  {{ form.text }}
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+
+
+            <!-- <blockquote class="blockquote">
+              <p>Quoted text goes here.</p>
+            </blockquote>
+            
+            <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+            <h3>Example lists</h3>
+            <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout. This is an example unordered list:</p>
+            <ul>
+              <li>First list item</li>
+              <li>Second list item with a longer description</li>
+              <li>Third list item to close it out</li>
+            </ul>
+            <p>And this is an ordered list:</p>
+            <ol>
+              <li>First list item</li>
+              <li>Second list item with a longer description</li>
+              <li>Third list item to close it out</li>
+            </ol>
+            <p>And this is a definiton list:</p>
+            <dl>
+              <dt>HyperText Markup Language (HTML)</dt>
+              <dd>The language used to describe and define the content of a Web page</dd>
+              <dt>Cascading Style Sheets (CSS)</dt>
+              <dd>Used to describe the appearance of Web content</dd>
+              <dt>JavaScript (JS)</dt>
+              <dd>The programming language used to build advanced Web sites and applications</dd>
+            </dl>
+            <h2>Inline HTML elements</h2>
+            <p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
+            <ul>
+              <li><strong>To bold text</strong>, use <code class="language-plaintext highlighter-rouge">&lt;strong&gt;</code>.</li>
+              <li><em>To italicize text</em>, use <code class="language-plaintext highlighter-rouge">&lt;em&gt;</code>.</li>
+              <li>Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use <code class="language-plaintext highlighter-rouge">&lt;abbr&gt;</code>, with an optional <code class="language-plaintext highlighter-rouge">title</code> attribute for the full phrase.</li>
+              <li>Citations, like <cite>— Mark Otto</cite>, should use <code class="language-plaintext highlighter-rouge">&lt;cite&gt;</code>.</li>
+              <li><del>Deleted</del> text should use <code class="language-plaintext highlighter-rouge">&lt;del&gt;</code> and <ins>inserted</ins> text should use <code class="language-plaintext highlighter-rouge">&lt;ins&gt;</code>.</li>
+              <li>Superscript <sup>text</sup> uses <code class="language-plaintext highlighter-rouge">&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code class="language-plaintext highlighter-rouge">&lt;sub&gt;</code>.</li>
+            </ul>
+            <p>Most of these elements are styled by browsers with few modifications on our part.</p>
+            <h2>Heading</h2>
+            <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+            <h3>Sub-heading</h3>
+            <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+            <pre><code>Example code block</code></pre>
+            <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p> -->
+          </article>
+          <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn btn-outline-primary" href="#">Older</a>
+            <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+          </nav>
+    
+        </div>
+    
+        <div class="col-md-4">
+          <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4 mb-3 bg-light rounded">
+              <h4 class="fst-italic">About</h4>
+              <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+{% endblock %}

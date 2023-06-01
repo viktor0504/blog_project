@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container">
+<div class="row g-5">
+    <div class="col-md-8">
+      <hr>
+      <article class="blog-post">
+        <div class="d-flex justify-content-start">
+          <form class="mr-3" action="{% url 'blog:search_results' %}" method="GET">
+              <input class="form-control form-control-sm" type="text" name="query" placeholder="Search">
+              <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
+          </form>
+        </div>
+        <br>
+        {% if query %}
+          <h2>Search Results for "{{ query }}"</h2>
+          <ul>
+            {% for post in results %}
+            <a href="{% url 'blog:blog_detail' post.slug %}" style="color: black; text-decoration: none;"><li>{{ post.title }}</li</a>  >
+            <br>
+            {% empty %}
+              <li>No results found.</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Please enter a search query.</p>
+        {% endif %}
+      </article> 
+      
+    </div>
+</div>
+</main>
+{% endblock %}

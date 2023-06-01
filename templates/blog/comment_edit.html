@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40vh;
+    }
+</style>
+
+<div class="center-container">
+    <div class="comment-container">
+        <h1>Comment</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{% url 'blog:blog_detail' slug=comment.post.slug %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
