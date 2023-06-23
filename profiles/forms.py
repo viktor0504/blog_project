@@ -45,15 +45,16 @@ class UserSignupForm(forms.Form):
 
 
     def clean(self):
-        """Verify password confirmation match."""
-        data = super().clean()
+        cleaned_data = super().clean()
 
-        password = data["password"]
-        confirm_password = data["confirm_password"]
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
 
-        if password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
-        return data
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', "Passwords do not match.")
+
+        return cleaned_data
+
 
 
 

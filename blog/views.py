@@ -131,7 +131,7 @@ class BlogHomeView(LoginRequiredMixin, ListView):
         #Get me the last post
         context['recent_post'] = Post.objects.order_by('created_at').last()
 
-        context['news_posts'] = Post.objects.order_by('created_at')[:3]
+        context['news_posts'] = Post.objects.order_by('created_at')[:6]
         #import pdb;pdb.set_trace()
 
         context['authors'] = User.objects.all()

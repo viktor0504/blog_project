@@ -1,74 +1,31 @@
 {% extends 'base.html' %}
-{% block content %}
 
 <style>
-    .centered-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-    }
+.centered-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set the height as desired */
+}
+
+.centered-form-content {
+  text-align: center;
+}
+
 </style>
 
+
+{% block content %}
 <div class="centered-form">
+  <div class="centered-form-content">
     <h1>Sign Up</h1>
     <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            {{ form.username }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">Email</label>
-            {{ form.email }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.first_name.id_for_label }}">First Name</label>
-            {{ form.first_name }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
-            {{ form.last_name }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">Password</label>
-            {{ form.password }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
-            {{ form.confirm_password }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.nation.id_for_label }}">Nationality</label>
-            {{ form.nation }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.sex.id_for_label }}">Sex</label>
-            {{ form.sex }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.birth.id_for_label }}">Birth</label>
-            {{ form.birth }}
-          </div>
-        
-          <div class="form-group">
-            <label for="{{ form.contact_inf.id_for_label }}">Contact Info</label>
-            {{ form.contact_inf }}
-          </div>
-        
-          <button type="submit" class="btn btn-primary">Sign Up</button>
+      {% csrf_token %}
+      <div class="form-content">
+        {{ form.as_p }}
+      </div>
+      <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
+  </div>
 </div>
-
-
-    
 {% endblock %}

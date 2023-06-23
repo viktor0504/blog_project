@@ -25,6 +25,7 @@ class Profile(models.Model):
     contact_inf = models.CharField(max_length=150, blank=True, null=True)
     sex = models.CharField(choices=SEX_CHOICES, max_length=2, blank=True, null=True)
     nation = models.CharField(choices=NATIONALITY_CHOICES, max_length=2, blank=True, null=True)
+    pub_since = models.DateField(blank=True, null=True)
     birth = models.DateField(blank=True, null=True)
     
     class Meta:
@@ -32,5 +33,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+        
 
 

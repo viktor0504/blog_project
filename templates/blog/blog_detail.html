@@ -41,6 +41,8 @@
             {% if post_detail.image.url %}
               <img src="{{post_detail.image.url}}" width="100%" height="100%"alt="">
             {% endif %}
+            <br>
+            
             {% for comment in post_detail.comments.all %}
             <div class="comment-container">
               <p>{{ comment.author }}: {{ comment.text }}</p>

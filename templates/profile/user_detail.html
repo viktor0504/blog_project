@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    {{user.username}}
+<div style="text-align: left; padding: 50px;">
+    <h1> <strong>  {{user.first_name}} {{user.last_name}}</strong> {{user.profile.contact_inf}} </h1> 
+    <small> Publisher since: {{user.profile.pub_since}} </small>
+    <hr>
+    <p>{{user.profile.bio}}</p> 
+</div>
+  
 {% endblock %}

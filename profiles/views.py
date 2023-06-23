@@ -28,8 +28,10 @@ class UserSignUpView(FormView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
+        print(form.cleaned_data)
         recipient = form.cleaned_data['email']
         form.send_registration_email(recipient)
+        form.save()
         return super().form_valid(form)
 
 

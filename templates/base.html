@@ -50,7 +50,7 @@
         </a>
         <br>
           {% if user.is_authenticated %}
-          <a class="btn btn - primary" href="">{{user.first_name}}</a>
+          <a class="btn btn - primary" href="{% url 'profile:user_detail' username=user %}">{{user.first_name}}</a>
             <a class="btn btn-sm btn-outline-secondary" href="{% url 'profile:profile_logout' %}">Log out</a>
             {% else %}
             <a class="btn btn-sm btn-outline-secondary" href="{% url 'profile:profile_signup' %}">Sign up</a>
