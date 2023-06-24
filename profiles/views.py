@@ -1,8 +1,8 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from django.core.mail import EmailMessage
 from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Profile
 from .forms import UserSignupForm
@@ -10,7 +10,7 @@ from user.models import User
 
 
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'profile/user_detail.html'
     context_object_name = 'user'
@@ -48,5 +48,5 @@ class UserLoginView(LoginView):
 
 
 
-class UserLogoutView(LogoutView):
+class UserLogoutView(LoginRequiredMixin, LogoutView):
     next_page = reverse_lazy('home') 
