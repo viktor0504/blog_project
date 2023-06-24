@@ -10,7 +10,6 @@ from user.models import User
 class AddPostForm(forms.Form):
     title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Title"}))
     sub_title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Sub title"}))
-    author = forms.CharField(max_length=150, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Author"}))
     content = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "placeholder": "Content"}))
     tag = forms.CharField(max_length=15, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Tag"}))
     social = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Social"}))

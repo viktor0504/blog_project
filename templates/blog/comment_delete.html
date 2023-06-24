@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Delete Comment</h1>
-        <p>Are you sure you want to delete the comment by {{ comment.author }}?</p>
+    <div style="margin: 40px;">
+        <h1>Delete Comment</h1>
+            <p>Are you sure you want to delete the comment by {{ comment.author }}?</p>
         <form method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'blog:blog_detail' slug=comment.post.slug %}" class="btn btn-secondary">Cancel</a>
-    </form>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'blog:blog_detail' slug=comment.post.slug %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 {% endblock %}
