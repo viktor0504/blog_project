@@ -28,6 +28,15 @@ class AddPostForm(forms.Form):
 
 
 
+class EditPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [ 'title', 'sub_title', 'content', 'tag', 'social', 'image']
+        widgets = {
+            'text': forms.Textarea(attrs={'placeholder': 'Your Comment', 'rows': 4}),
+        }
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

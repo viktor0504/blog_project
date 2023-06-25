@@ -5,14 +5,14 @@ from django.db.models import DateTimeField
 from django.db.models.functions import TruncMonth
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.edit import FormMixin, FormView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.urls import reverse
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView
 
-from .forms import AddPostForm, CommentForm, CommentEditForm
+from .forms import AddPostForm, CommentForm, CommentEditForm, EditPostForm
 from .models import Post, Comment
 from user.models import User
 
@@ -85,6 +85,15 @@ class PostCreate(LoginRequiredMixin, FormView):
         form.save(author=self.request.user,  **kwargs)
         return super().form_valid(form)
 
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    template_name = 'blog/update_post.html'
+    form_class = EditPostForm
+    
+    def get_success_url(self):
+        return reverse_lazy('blog:blog_detail', kwargs={'slug': self.object.slug})
 
 
 class ArchivesListView(LoginRequiredMixin, ListView):
