@@ -1,25 +1,24 @@
 import random
 
 from django.shortcuts import get_object_or_404, redirect, render
-from django.shortcuts import render
 from django.db.models import DateTimeField
-from django.db.models.functions import TruncMonth, TruncYear
-from django.db.models.functions import ExtractYear
+from django.db.models.functions import TruncMonth
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, FormView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic.edit import FormView
-from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 from django.urls import reverse
-from .forms import AddPostForm, CommentForm, CommentEditForm
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+
+from .forms import AddPostForm, CommentForm, CommentEditForm, EditPostForm
 from .models import Post, Comment
 from user.models import User
 
 
+
+@login_required
 def subscribe(request):
     # Get the email address from the authenticated user (you may modify this based on your implementation)
     email = request.user.email
@@ -38,7 +37,7 @@ def subscribe(request):
 
 
 
-
+@login_required
 def search_results(request):
     query = request.GET.get('query')
     if query:
@@ -77,7 +76,7 @@ def comment_delete(request, comment_pk):
 
 
 
-class PostCreate(FormView):
+class PostCreate(LoginRequiredMixin, FormView):
     form_class = AddPostForm
     template_name = 'blog/add_post.html'
     success_url = reverse_lazy('blog:blog_home')
@@ -88,7 +87,16 @@ class PostCreate(FormView):
 
 
 
-class ArchivesListView(ListView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    template_name = 'blog/update_post.html'
+    form_class = EditPostForm
+    
+    def get_success_url(self):
+        return reverse_lazy('blog:blog_detail', kwargs={'slug': self.object.slug})
+
+
+class ArchivesListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'blog/blog_archives.html'
     context_object_name = 'posts'
@@ -145,7 +153,7 @@ class BlogHomeView(LoginRequiredMixin, ListView):
 
 
 
-class BlogDetailView(LoginRequiredMixin, FormMixin, DetailView):
+class PostDetailView(LoginRequiredMixin, FormMixin, DetailView):
     model = Post
     template_name = 'blog/blog_detail.html'
     context_object_name = 'post_detail'
@@ -168,3 +176,10 @@ class BlogDetailView(LoginRequiredMixin, FormMixin, DetailView):
         form.instance.author = self.request.user
         form.save()
         return super().form_valid(form)
+
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = 'blog/delete_post.html'
+    success_url = '/blog/'

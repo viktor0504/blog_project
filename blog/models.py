@@ -6,12 +6,27 @@ from profiles.models import Profile
 
 from user.models import User
 
+
+TAG_CHOICES = [
+        ('Research', 'Research'),
+        ('News', 'News'),
+        ('Games', 'Games'),
+        ('Technology', 'Technology'),
+        ('Health', 'Health'),
+        ('Science', 'Science'),
+        ('Enviroment', 'Enviroment'),
+        ('Physics', 'Physics'),
+        ('Earth', 'Earth'),
+]
+
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     sub_title = models.CharField(max_length=200)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField()
-    tag = models.CharField(max_length=15)
+    tag = models.CharField(choices=TAG_CHOICES, max_length=15)
     image = models.ImageField(upload_to='post/')
     social = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)

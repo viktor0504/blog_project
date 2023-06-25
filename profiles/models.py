@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
+
 SEX_CHOICES = [
         ('-', '-'),
         ('M', 'M'),

@@ -8,7 +8,7 @@
         {% for blog in posts %}
           <h2 class="blog-post-title">
               <a href="{% url 'blog:blog_detail' blog.slug %}" style="color: black; text-decoration: none;" >{{blog.title}}</a> </h2>
-          <p class="blog-post-meta">{{blog.created_at}}<a href="#" style="color: black; text-decoration: none;"> Author: {{blog.author}} | {{blog.tag}}</a></p>
+          <p class="blog-post-meta">{{blog.created_at}}<a href="#" style="color: black; text-decoration: none;"></a> Author: {{blog.author}} | {{blog.tag}}</p>
           <p>{{blog.sub_title}}</p>
           <hr>
           <p>{{blog.content|slice:':600'}}</p>

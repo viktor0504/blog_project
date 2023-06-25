@@ -3,7 +3,7 @@
 <main class="container">
     <div class='form'> 
     <h1>Create a new post.</h1>
-    <form method="POST" action="{% url 'blog:blog_add' %}" enctype='multipart/form-data'>
+    <form method="POST" action="{% url 'blog:add_post' %}" enctype='multipart/form-data'>
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Submit</button>

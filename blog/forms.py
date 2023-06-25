@@ -1,18 +1,14 @@
 from django import forms
-from django.conf import settings
 
-from .models import Comment, Post
-
-from user.models import User
+from .models import Comment, Post, TAG_CHOICES
 
 
 
 class AddPostForm(forms.Form):
     title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Title"}))
     sub_title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Sub title"}))
-    author = forms.CharField(max_length=150, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Author"}))
     content = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "placeholder": "Content"}))
-    tag = forms.CharField(max_length=15, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Tag"}))
+    tag = forms.ChoiceField(choices=TAG_CHOICES)
     social = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Social"}))
     image = forms.ImageField(widget=forms.ClearableFileInput(attrs={"class": "form-control-file"}))
     
@@ -30,6 +26,15 @@ class AddPostForm(forms.Form):
         obj = Post(image=image, title=title, sub_title=sub_title, author=author_profile, content=content, tag=tag, social=social)
         obj.save(**kwargs)
 
+
+
+class EditPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [ 'title', 'sub_title', 'content', 'tag', 'social', 'image']
+        widgets = {
+            'text': forms.Textarea(attrs={'placeholder': 'Your Comment', 'rows': 4}),
+        }
 
 
 class CommentForm(forms.ModelForm):
